@@ -20,11 +20,15 @@ if (!uri) {
   console.error("MONGO_URL is missing");
 }
 
-// ============= Middleware =============
+ 
+
+
+
 app.use(cookieParser());
 app.use(express.json());
+ 
 
-// CORS setup
+
 app.use(
   cors({
     origin: [clientUrl, 'http://localhost:3000', 'http://localhost:3001'].filter(Boolean),
