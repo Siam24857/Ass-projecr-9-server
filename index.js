@@ -291,7 +291,11 @@ app.patch("/listed/:id", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Update room
+
+
+ 
+
+
 app.patch("/rooms/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -309,7 +313,9 @@ app.patch("/rooms/:id", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Create booking
+ 
+
+
 app.post("/bookings", Verifiedtoken, async (req, res) => {
   try {
     const { db } = await connectToDatabase();
@@ -329,7 +335,9 @@ app.post("/bookings", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Get all bookings
+ 
+
+
 app.get("/bookings", Verifiedtoken, async (req, res) => {
   try {
     const { db } = await connectToDatabase();
