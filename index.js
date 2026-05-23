@@ -32,7 +32,7 @@ app.use(
   })
 );
  
-const JWKS = createRemoteJWKSet(new URL("http://localhost:3000/api/auth/jwks"))
+const JWKS = createRemoteJWKSet(new URL(`${process.env.CLIENT_URL}/api/auth/jwks`))
 
 
 
@@ -384,9 +384,8 @@ app.use((err, req, res, next) => {
 // ============= Server Start =============
 if (!isVercel && !isProduction) {
   app.listen(port, () => {
-    console.log(`🚀 Server running on http://localhost:${port}`);
-    console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
-    console.log(`🔗 Allowed origins: ${clientUrl || 'http://localhost:3000'}`);
+    console.log(` Server running on http://localhost:${port}`);
+   
     connectToDatabase().catch(console.error);
   });
 }
