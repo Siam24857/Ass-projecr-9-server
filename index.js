@@ -341,6 +341,19 @@ app.get("/bookings", Verifiedtoken, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+app.delete("/bookings-deleting/:id", Verifiedtoken, async (req, res) => {
+  try {
+
+    const { id } =req.params
+    const { db } = await connectToDatabase();
+    const bookingsroom = db.collection("bookionsroom");
+    const result = await bookingsroom.deleteOne({ _id: new ObjectId(id) });
+    return res.json(result);
+  } catch (error) {
+    console.error("Error in /bookings-deleting/:id (DELETE):", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // Get bookings by user email
 app.get("/bookings/user/:email", async (req, res) => {
