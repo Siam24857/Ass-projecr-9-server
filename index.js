@@ -197,7 +197,9 @@ app.post("/listed-room-add", Verifiedtoken,   async (req, res) => {
   }
 });
 
-// Get room details by ID
+
+
+
 app.get("/roomdetails/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -223,7 +225,9 @@ app.get("/roomdetails/:id", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Get listed room details by roomID
+
+
+
 app.get("/listedroomdetails/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -247,7 +251,9 @@ app.get("/listedroomdetails/:id", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Delete listed room
+
+
+
 app.delete("/listed/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -273,7 +279,9 @@ app.delete("/listed/:id", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Update listed room
+
+
+
 app.patch("/listed/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
