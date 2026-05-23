@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const { createRemoteJWKSet, jwtVerify } = require("jose-cjs");
 
 dotenv.config();
 
@@ -30,8 +31,28 @@ app.use(
     credentials: true,
   })
 );
+ 
+const JWKS = createRemoteJWKSet(new URL("http://localhost:3000/api/auth/jwks"))
 
-// ============= Database Connection =============
+
+
+const Verifiedtoken = async(req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+        return res.status(401).json({ error: "Access denied. No token provided." });
+    }
+    
+   try {
+     
+    const  { payload  } = await jwtVerify(token, JWKS)
+    next();
+   }
+   catch(erroe){
+    return res.status(403).json({ error: "Access denied. No token provided." });
+   }
+}
+
+
 let cachedClient = null;
 let cachedDb = null;
 
@@ -138,7 +159,7 @@ app.get("/rooms/amenity/:id", async (req, res) => {
 });
 
 // Add new room
-app.post("/add-rooms", async (req, res) => {
+app.post("/add-rooms", Verifiedtoken,async (req, res) => {
   try {
     const { db } = await connectToDatabase();
     const roomcollection = db.collection("rooms");
@@ -151,7 +172,7 @@ app.post("/add-rooms", async (req, res) => {
 });
 
 // Get all listed rooms
-app.get("/listed-room", async (req, res) => {
+app.get("/listed-room", Verifiedtoken, async (req, res) => {
   try {
     const { db } = await connectToDatabase();
     const listedrooms = db.collection("listedrooms");
@@ -164,7 +185,7 @@ app.get("/listed-room", async (req, res) => {
 });
 
 // Add to listed rooms
-app.post("/listed-room-add", async (req, res) => {
+app.post("/listed-room-add", Verifiedtoken,   async (req, res) => {
   try {
     const { db } = await connectToDatabase();
     const listedrooms = db.collection("listedrooms");
@@ -177,7 +198,7 @@ app.post("/listed-room-add", async (req, res) => {
 });
 
 // Get room details by ID
-app.get("/roomdetails/:id", async (req, res) => {
+app.get("/roomdetails/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -203,7 +224,7 @@ app.get("/roomdetails/:id", async (req, res) => {
 });
 
 // Get listed room details by roomID
-app.get("/listedroomdetails/:id", async (req, res) => {
+app.get("/listedroomdetails/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id) 
@@ -227,7 +248,7 @@ app.get("/listedroomdetails/:id", async (req, res) => {
 });
 
 // Delete listed room
-app.delete("/listed/:id", async (req, res) => {
+app.delete("/listed/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -253,7 +274,7 @@ app.delete("/listed/:id", async (req, res) => {
 });
 
 // Update listed room
-app.patch("/listed/:id", async (req, res) => {
+app.patch("/listed/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
     const listeeddata = req.body;
@@ -271,7 +292,7 @@ app.patch("/listed/:id", async (req, res) => {
 });
 
 // Update room
-app.patch("/rooms/:id", async (req, res) => {
+app.patch("/rooms/:id", Verifiedtoken, async (req, res) => {
   try {
     const { id } = req.params;
     const listeeddata = req.body;
@@ -289,7 +310,7 @@ app.patch("/rooms/:id", async (req, res) => {
 });
 
 // Create booking
-app.post("/bookings", async (req, res) => {
+app.post("/bookings", Verifiedtoken, async (req, res) => {
   try {
     const { db } = await connectToDatabase();
     const bookingsroom = db.collection("bookionsroom");
@@ -309,7 +330,7 @@ app.post("/bookings", async (req, res) => {
 });
 
 // Get all bookings
-app.get("/bookings", async (req, res) => {
+app.get("/bookings", Verifiedtoken, async (req, res) => {
   try {
     const { db } = await connectToDatabase();
     const bookingsroom = db.collection("bookionsroom");
