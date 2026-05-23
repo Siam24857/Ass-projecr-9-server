@@ -85,9 +85,10 @@ async function connectToDatabase() {
   return { client: cachedClient, db: cachedDb };
 }
 
-// ============= Routes =============
+ 
 
-// Test route
+ 
+
 app.get("/", (req, res) => {
   res.json({ 
     message: "Studying Room API is running!", 
@@ -96,7 +97,10 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health check route
+ 
+
+
+
 app.get("/health", async (req, res) => {
   try {
     const { db } = await connectToDatabase();
@@ -114,7 +118,9 @@ app.get("/health", async (req, res) => {
   }
 });
 
-// Get home rooms (limited to 8)
+ 
+
+
 app.get("/home", async (req, res) => {
   try {
     const { db } = await connectToDatabase();
@@ -127,7 +133,9 @@ app.get("/home", async (req, res) => {
   }
 });
 
-// Get all rooms
+ 
+
+
 app.get("/rooms", async (req, res) => {
   try {
     const { db } = await connectToDatabase();
@@ -140,7 +148,10 @@ app.get("/rooms", async (req, res) => {
   }
 });
 
-// Get rooms by amenity
+ 
+
+
+
 app.get("/rooms/amenity/:id", async (req, res) => {
   try {
     const { id } = req.params;
