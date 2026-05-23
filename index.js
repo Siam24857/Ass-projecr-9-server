@@ -158,7 +158,10 @@ app.get("/rooms/amenity/:id", async (req, res) => {
   }
 });
 
-// Add new room
+
+
+
+
 app.post("/add-rooms", Verifiedtoken,async (req, res) => {
   try {
     const { db } = await connectToDatabase();
@@ -171,7 +174,10 @@ app.post("/add-rooms", Verifiedtoken,async (req, res) => {
   }
 });
 
-// Get all listed rooms
+
+
+
+
 app.get("/listed-room", Verifiedtoken, async (req, res) => {
   try {
     const { db } = await connectToDatabase();
@@ -184,7 +190,9 @@ app.get("/listed-room", Verifiedtoken, async (req, res) => {
   }
 });
 
-// Add to listed rooms
+
+
+
 app.post("/listed-room-add", Verifiedtoken,   async (req, res) => {
   try {
     const { db } = await connectToDatabase();
